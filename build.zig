@@ -4,6 +4,11 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    const sdl3 = addSDL3(b, target, optimize);
+    b.installArtifact(sdl3);
+}
+
+pub fn addSDL3(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.builtin.OptimizeMode) *std.Build.Step.Compile {
     const sdl3 = b.addLibrary(.{
         .name = "sdl3",
         .linkage = .static,
@@ -209,5 +214,5 @@ pub fn build(b: *std.Build) void {
         sdl3.linkSystemLibrary("dinput8");
     }
 
-    b.installArtifact(sdl3);
+    return sdl3;
 }
